@@ -9,7 +9,7 @@ module Sanctuary
            f.each_line do |line|
              if line[1..4] == "TYPE"
                puts "generating #{line.split(":")[1]}"
-               Sanctuary::Generator.start([line.split(":")[1].chomp])
+               Sanctuary::Generator.start([line.split(":")[1].lstrip.chomp])
              end
            end
          end
