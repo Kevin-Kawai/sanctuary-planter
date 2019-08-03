@@ -1,18 +1,18 @@
+require "pry"
 require "sanctuary"
+require "sanctuary/planter/parser"
+require "sanctuary/planter/generator"
 
 module Sanctuary
   module Planter
     class CLI
       def self.start
         if ARGV.include?("-i")
-          File.open(ARGV[1]) do |f|
-           f.each_line do |line|
-             if line[1..4] == "TYPE"
-               puts "generating #{line.split("TYPE:").last.split(" ")[0]} as #{line.split("NAME:").last}"
-               Sanctuary::Generator.start([line.split("TYPE:")[1].split(" ")[0].lstrip.chomp, line.split("NAME:").last.chomp])
-             end
-           end
-         end
+          classes_array = Sanctuary::Planter::Parser.parse_plant_uml(ARGV[1])
+          plant_array = Sanctuary::Planter::Parser.generate_plant_data_objects(classes_array)
+          plant_array.each do |plant|
+            Sanctuary::Planter::Generator.generate_file_from_plant(plant)
+          end
         else
           puts "NO SUCH INPUT"
         end
