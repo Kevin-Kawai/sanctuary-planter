@@ -1,4 +1,3 @@
-require "pry"
 require "sanctuary"
 require "sanctuary/planter/parser"
 require "sanctuary/planter/generator"
